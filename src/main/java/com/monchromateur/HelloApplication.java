@@ -16,16 +16,7 @@ public class HelloApplication extends Application {
         stage.setTitle("Monochromateur APP4 - 2022/2023");
         stage.setScene(scene);
         stage.show();
-
-
-
-
-
     }
-
-
-
-
 
     public static void main(String[] args) {
         launch();

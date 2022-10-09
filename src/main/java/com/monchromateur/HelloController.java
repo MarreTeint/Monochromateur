@@ -4,12 +4,16 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.*;
 import com.fazecast.jSerialComm.*;
 
+import static java.lang.Integer.parseInt;
+
 
 public class HelloController {
 
 
     @FXML
     private LineChart result;
+    //hide result
+
 
     @FXML
     protected void plotDatas() {
@@ -42,14 +46,29 @@ public class HelloController {
             Y[i] = 0;
         }
 
-        byte[] readBuffer = new byte[400];
-        int numRead = comPort.readBytes(readBuffer, 400);
+        //reads 400 datas from com3 and store them in Y
+
         for (int i = 0; i < 400; i++) {
-            if (readBuffer[i] >= 0 && readBuffer[i] <= 100) {
-                Y[i] = readBuffer[i];
-                System.out.println(Y[i]);
+            byte[] readBuffer = new byte[4];
+            //convert buffer to int
+            int numRead = comPort.readBytes(readBuffer, readBuffer.length);
+                System.out.println(readBuffer[0]);
+                System.out.println(readBuffer[1]);
+                System.out.println(readBuffer[2]);
+                System.out.println(readBuffer[3]);
+
+                System.out.println(" ");
+
+            //convert readbuffer to ascii string
+
+            if(readBuffer[0] >=48 && readBuffer[0] <= 57 && readBuffer[1] >=48 && readBuffer[1] <= 57 && readBuffer[2] >=48 && readBuffer[2] <= 57) {
+                String str = new String(readBuffer);
+                System.out.println(str);
+                Y[i] = parseInt(str);
             }
+
         }
+
 
 
 
