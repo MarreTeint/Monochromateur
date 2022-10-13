@@ -9,7 +9,7 @@
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-   <LineChart fx:id="result" prefHeight="529.0" prefWidth="719.0" title="Résultat" visible="false">
+   <LineChart fx:id="result" prefHeight="529.0" prefWidth="719.0">
      <xAxis>
        <NumberAxis autoRanging="false" label="Longeur d'onde" lowerBound="400" side="BOTTOM" tickLength="10.0" tickUnit="10.0" upperBound="800" />
      </xAxis>
@@ -17,6 +17,7 @@
        <NumberAxis autoRanging="false" label="Absorbance" side="LEFT" />
      </yAxis>
    </LineChart>
-    <Button onMouseClicked="#plotDatas" text="Faire une mesure" fx:id="button"/>
-   <ProgressIndicator fx:id="progress"  progress="0.0" visible="false"/>
+   <ComboBox fx:id="COMPort" prefWidth="150.0" promptText="COM Port" />
+    <Button fx:id="button" onMouseClicked="#plotDatas" text="Faire une mesure" />
+   <ProgressIndicator fx:id="progress" progress="0.0" visible="false" />
 </VBox>
