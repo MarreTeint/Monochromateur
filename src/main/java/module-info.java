@@ -1,4 +1,4 @@
-module com.example.monchromateur {
+module com.example.monochromateur {
     requires javafx.controls;
     requires javafx.fxml;
 
@@ -6,6 +6,6 @@ module com.example.monchromateur {
     requires org.kordamp.bootstrapfx.core;
     requires com.fazecast.jSerialComm;
 
-    opens com.monchromateur to javafx.fxml;
-    exports com.monchromateur;
+    opens com.monochromateur to javafx.fxml;
+    exports com.monochromateur;
 }
