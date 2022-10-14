@@ -3,9 +3,9 @@ package com.monchromateur;
 import javafx.fxml.FXML;
 import javafx.scene.chart.*;
 import com.fazecast.jSerialComm.*;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.ProgressIndicator;
+import javafx.scene.control.*;
+import javafx.scene.layout.HBox;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +18,10 @@ public class Controller {
 
     public Button button;
     public ComboBox COMPort;
+    public Slider slide;
+    public Label slideY;
+    public Label slideX;
+    public HBox displayData;
     @FXML
     private LineChart result;
     @FXML
@@ -45,8 +49,9 @@ public class Controller {
                 byte[] WriteByte = new byte[1];
                 WriteByte[0] = 65; //send A
                 if (comPort.writeBytes(WriteByte, 1) == 1) {
-                    System.out.println("Start command sent");
+                    System.out.println("Start command sent on " + port);
                 } else {
+
                     System.out.println("Error sending start command");
                     progress.setVisible(false);
                     button.setVisible(true);
@@ -64,8 +69,9 @@ public class Controller {
                 series.setName("Absorbance en fonction de la longueur d'onde");
 
                 //read data from arduino
-                int Y[] = new int[400];
-                for (int i = 0; i < 400; i++) {
+                int Y[] = new int[401];
+                int maxat = 0;
+                for (int i = 0; i < 401; i++) {
                     StringBuilder data = new StringBuilder();
                     byte[] readBuffer = new byte[1];
                     comPort.readBytes(readBuffer, readBuffer.length);
@@ -79,6 +85,9 @@ public class Controller {
                     }
                     if (data.length() > 0) {
                         Y[i] = parseInt(data.toString());
+                        if (Y[i] > Y[maxat]) {
+                            maxat = i;
+                        }
                         System.out.println(i + " Data received: " + Y[i]);
                         int finalI = i;
                         javafx.application.Platform.runLater(() -> {
@@ -87,11 +96,12 @@ public class Controller {
                     }
                 }
 
-                for (int i = 400; i < 800; i += 1) {
+                for (int i = 400; i <= 800; i += 1) {
                     series.getData().add(new XYChart.Data(i, Y[i - 400]));
                 }
 
                 //send series to main thread
+                int finalMaxat = maxat;
                 javafx.application.Platform.runLater(() -> {
                     result.getData().clear();
                     result.getData().add(series);
@@ -101,14 +111,36 @@ public class Controller {
                     button.setText("Refaire une mesure");
                     button.setVisible(true);
                     progress.setProgress(0);
+                    slide.setVisible(true);
+                    displayData.setVisible(true);
+                    sliderMoved();
                 });
-
                 //close serial port
                 comPort.closePort();
             }).start();
         }
-        else
+        else {
             System.out.println("No COM port selected");
+        }
+    }
+
+    @FXML
+    protected void sliderMoved() {
+        new Thread(() -> {
+            XYChart.Series series = new XYChart.Series();
+            series.getData().add(new XYChart.Data((int)slide.getValue(), 0));
+            series.getData().add(new XYChart.Data((int)slide.getValue(), 100));
+            series.setName("Curseur");
+            javafx.application.Platform.runLater(() -> {
+                result.setAnimated(false);
+                if(result.getData().size()>1) {
+                    result.getData().remove(1);
+                }
+                result.getData().add(series);
+                slideX.setText(String.valueOf((int)slide.getValue()));
+                //TODO set slideY value
+            });
+        }).start();
     }
 
     @FXML
@@ -118,7 +150,6 @@ public class Controller {
             ports.add(port.getSystemPortName());
         }
         COMPort.getItems().addAll(ports);
-        //put the value of the selected port in the variable port and print it
         COMPort.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             port = newValue.toString();
             System.out.println(port);
