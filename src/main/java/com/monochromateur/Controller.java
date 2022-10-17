@@ -58,7 +58,13 @@ public class Controller {
                     progress.setVisible(false);
                     button.setVisible(true);
                     comPort.closePort();
-                    //TODO add an error message on the UI
+                    javafx.application.Platform.runLater(() -> {
+                        Alert alert = new Alert(Alert.AlertType.ERROR);
+                        alert.setTitle("Error");
+                        alert.setHeaderText("Error sending start command");
+                        alert.setContentText("Please select another COM port and try again");
+                        alert.showAndWait();
+                    });
                     return;
                 }
 
@@ -105,6 +111,7 @@ public class Controller {
                 //send series to main thread
                 int finalMaxat = maxat;
                 javafx.application.Platform.runLater(() -> {
+                    result.setAnimated(true);
                     result.getData().clear();
                     result.getData().add(series);
                     result.setCreateSymbols(false);
@@ -123,6 +130,11 @@ public class Controller {
         }
         else {
             System.out.println("No COM port selected");
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Select a COM port");
+            alert.setHeaderText("No COM port selected");
+            alert.setContentText("Please select a COM port and try again");
+            alert.showAndWait();
         }
     }
 
@@ -136,7 +148,7 @@ public class Controller {
             javafx.application.Platform.runLater(() -> {
                 result.setAnimated(false);
                 if(result.getData().size()>1) {
-                    result.getData().remove(1);
+                   result.getData().remove(1);
                 }
                 result.getData().add(series);
                 slideX.setText(String.valueOf((int)slide.getValue()));
