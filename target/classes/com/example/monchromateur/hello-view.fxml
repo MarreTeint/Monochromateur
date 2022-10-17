@@ -11,7 +11,7 @@
     </padding>
    <LineChart fx:id="result" prefHeight="529.0" prefWidth="719.0" title="test">
      <xAxis>
-       <NumberAxis autoRanging="false" label="Longeur d'onde" lowerBound="400" side="BOTTOM" tickUnit="10.0" upperBound="800" />
+       <NumberAxis autoRanging="false" label="Longeur d'onde" lowerBound="400" side="BOTTOM" tickLength="10.0" tickUnit="10.0" upperBound="800" />
      </xAxis>
      <yAxis>
        <NumberAxis autoRanging="false" label="Absorbance" side="LEFT" />
