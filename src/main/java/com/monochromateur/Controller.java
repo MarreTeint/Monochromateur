@@ -60,19 +60,16 @@ public class Controller {
                     comPort.closePort();
                     javafx.application.Platform.runLater(() -> {
                         Alert alert = new Alert(Alert.AlertType.ERROR);
-                        alert.setTitle("Error");
-                        alert.setHeaderText("Error sending start command");
-                        alert.setContentText("Please select another COM port and try again");
+                        alert.setTitle("Erreur");
+                        alert.setHeaderText("Erreur lors de l'envoi de la commande de démarrage");
+                        alert.setContentText("Vérifiez que le port " + port + " est bien connecté au monochromateur");
                         alert.showAndWait();
                     });
                     return;
                 }
 
 
-                NumberAxis xAxis = new NumberAxis();
-                xAxis.setLabel("Years");
-                NumberAxis yAxis = new NumberAxis();
-                yAxis.setLabel("No.of schools");
+
                 XYChart.Series series = new XYChart.Series();
                 series.setName("Absorbance en fonction de la longueur d'onde");
 
@@ -99,7 +96,7 @@ public class Controller {
                         System.out.println(i + " Data received: " + Y[i]);
                         int finalI = i;
                         javafx.application.Platform.runLater(() -> {
-                            progress.setProgress((double) finalI / 400);
+                            progress.setProgress((double) finalI / 401);
                         });
                     }
                 }
@@ -131,9 +128,9 @@ public class Controller {
         else {
             System.out.println("No COM port selected");
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Select a COM port");
-            alert.setHeaderText("No COM port selected");
-            alert.setContentText("Please select a COM port and try again");
+            alert.setTitle("Choisir un port COM");
+            alert.setHeaderText("Pas de port COM sélectionné");
+            alert.setContentText("Veuillez sélectionner un port COM et réessayer");
             alert.showAndWait();
         }
     }
