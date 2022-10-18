@@ -5,6 +5,7 @@ import javafx.scene.chart.*;
 import com.fazecast.jSerialComm.*;
 import javafx.scene.control.*;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Rectangle;
 
 
 import java.util.ArrayList;
@@ -22,12 +23,12 @@ public class Controller {
     public Label slideY;
     public Label slideX;
     public HBox displayData;
+    public Rectangle color;
     @FXML
     private LineChart result;
     @FXML
     private ProgressIndicator progress;
     private String port;
-
     private final int[] Y = new int[401];
 
     @FXML
@@ -150,9 +151,56 @@ public class Controller {
                 result.getData().add(series);
                 slideX.setText(String.valueOf((int)slide.getValue()));
                 slideY.setText(String.valueOf(Y[(int)slide.getValue()-400]));
-
+                int[] rgb = new int[3];
+                rgb = wavelengthToRGB((int)slide.getValue());
+                color.setFill(javafx.scene.paint.Color.rgb(rgb[0],rgb[1],rgb[2]));
             });
         }).start();
+    }
+
+    protected int[] wavelengthToRGB(int wave){
+        double r,g,b,s=1;
+
+        if(wave<=380){
+            r=80;
+            g=0;
+            b=81;
+        } else if (wave<440) {
+            r=(440-(double) wave)*255/(440-380);;
+            g=0;
+            b=255;
+            if (wave<420) {
+                s=0.3 + 0.7 * (wave - 380) / (440 - 380);
+            }
+        } else if (wave<490) {
+            r=0;
+            g=((double) wave-440)*255/(490-440);
+            b=255;
+        } else if (wave<510) {
+            r=0;
+            g=255;
+            b=(510-(double) wave)*255/(510-490);
+        } else if (wave<580) {
+            r=((double) wave-510)*255/(580-510);
+            g=255;
+            b=0;
+        } else if (wave<645) {
+            r=255;
+            g=(645-(double) wave)*255/(645-580);
+            b=0;
+        } else if (wave<=780) {
+            r=255;
+            g=0;
+            b=0;
+            if(wave>700) {
+                s=0.3 + 0.7 * (780 - wave) / (780 - 700);
+            }
+        } else {
+            r=77;
+            g=0;
+            b=0;
+        }
+        return new int[]{(int) (r*s),(int) (g*s),(int) (b*s)};
     }
 
     @FXML

@@ -4,6 +4,7 @@
 <?import javafx.scene.chart.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
 <VBox alignment="CENTER" prefHeight="602.0" prefWidth="701.0" spacing="20.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.monochromateur.Controller">
     <padding>
@@ -32,7 +33,9 @@
          <Label fx:id="slideX" text="" />
          <Separator orientation="VERTICAL" prefHeight="17.0" prefWidth="23.0" />
           <Label text=" Absorbance (en %) : " />
-            <Label fx:id="slideY" text="" />
+            <Label fx:id="slideY" prefHeight="17.0" prefWidth="36.0" text="" />
+         <Separator orientation="VERTICAL" prefHeight="17.0" prefWidth="23.0" />
+         <Rectangle fx:id="color" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="17.0" stroke="BLACK" strokeType="INSIDE" width="23.0" />
 
       </children>
    </HBox>
