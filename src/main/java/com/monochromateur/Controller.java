@@ -77,13 +77,14 @@ public class Controller {
                 //read data from arduino
                 //int Y[] = new int[401];
                 int maxat = 0;
+
                 for (int i = 0; i < 401; i++) {
                     StringBuilder data = new StringBuilder();
                     byte[] readBuffer = new byte[1];
                     comPort.readBytes(readBuffer, readBuffer.length);
+
                     while (readBuffer[0] != 10 && data.length() < 3 && data.length() >= 0) {
-                        if (readBuffer[0] == 0) {
-                        } else if (readBuffer[0] >= 48 && readBuffer[0] <= 57) {
+                        if (readBuffer[0] >= 48 && readBuffer[0] <= 57) {
                             String d = String.valueOf((char) readBuffer[0]);
                             data.append(d);
                         }
@@ -207,11 +208,11 @@ public class Controller {
     protected void initialize() {
         List<String> ports = new ArrayList<>();
         for (SerialPort port : SerialPort.getCommPorts()) {
-            ports.add(port.getSystemPortName());
+            ports.add(port.getPortDescription()+" - "+port.getSystemPortName());
         }
         COMPort.getItems().addAll(ports);
         COMPort.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
-            port = newValue.toString();
+            port = newValue.toString().split(" - ")[1];
             System.out.println(port);
         });
     }
