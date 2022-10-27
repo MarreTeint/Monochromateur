@@ -10,6 +10,8 @@ import javafx.scene.shape.Rectangle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import static java.lang.Integer.parseInt;
 
@@ -31,6 +33,8 @@ public class Controller {
     private String port;
     private final int[] Y = new int[401];
 
+
+
     @FXML
     protected void plotDatas() {
         if(port!=null) {
@@ -39,7 +43,7 @@ public class Controller {
             new Thread(() -> {
                 SerialPort comPort = SerialPort.getCommPort(port);
                 comPort.setComPortParameters(2000000, 8, SerialPort.ONE_STOP_BIT, SerialPort.NO_PARITY);
-                comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 0, 0);
+                comPort.setComPortTimeouts(SerialPort.TIMEOUT_READ_SEMI_BLOCKING, 5000, 0);
                 comPort.openPort();
                 //Arduino restart when openPort
                 try {
@@ -82,7 +86,6 @@ public class Controller {
                     StringBuilder data = new StringBuilder();
                     byte[] readBuffer = new byte[1];
                     comPort.readBytes(readBuffer, readBuffer.length);
-
                     while (readBuffer[0] != 10 && data.length() < 3 && data.length() >= 0) {
                         if (readBuffer[0] >= 48 && readBuffer[0] <= 57) {
                             String d = String.valueOf((char) readBuffer[0]);
@@ -205,16 +208,32 @@ public class Controller {
     }
 
     @FXML
-    protected void initialize() {
+    protected TimerTask listComPorts(){
+        //clear list
+        COMPort.getItems().clear();
         List<String> ports = new ArrayList<>();
         for (SerialPort port : SerialPort.getCommPorts()) {
             ports.add(port.getPortDescription()+" - "+port.getSystemPortName());
         }
         COMPort.getItems().addAll(ports);
+        return null;
+    }
+
+    @FXML
+    protected void initialize() {
+        //TODO Check com port available everytime in order to avoid errors
+        listComPorts();
         COMPort.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
             port = newValue.toString().split(" - ")[1];
             System.out.println(port);
         });
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                listComPorts();
+            }
+        };
+        new Timer().scheduleAtFixedRate(task, 1, 5000);
     }
 }
 
