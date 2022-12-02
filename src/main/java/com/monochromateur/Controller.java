@@ -209,13 +209,14 @@ public class Controller {
 
     @FXML
     protected TimerTask listComPorts(){
-        //clear list
-        COMPort.getItems().clear();
         List<String> ports = new ArrayList<>();
         for (SerialPort port : SerialPort.getCommPorts()) {
             ports.add(port.getPortDescription()+" - "+port.getSystemPortName());
         }
-        COMPort.getItems().addAll(ports);
+        if(!ports.equals(COMPort.getItems())){
+            COMPort.getItems().clear();
+            COMPort.getItems().addAll(ports);
+        }
         return null;
     }
 
@@ -224,8 +225,10 @@ public class Controller {
         //TODO Check com port available everytime in order to avoid errors
         listComPorts();
         COMPort.getSelectionModel().selectedItemProperty().addListener((v, oldValue, newValue) -> {
-            port = newValue.toString().split(" - ")[1];
-            System.out.println(port);
+            if(newValue != null) {
+                port = newValue.toString().split(" - ")[1];
+                System.out.println(port);
+            }
         });
         TimerTask task = new TimerTask() {
             @Override
