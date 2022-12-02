@@ -26,7 +26,7 @@
          <ProgressIndicator fx:id="progress" prefHeight="25.0" prefWidth="64.0" progress="0.0" visible="false" />
       </children>
    </HBox>
-   <Slider fx:id="slide" majorTickUnit="1" max="1100.0" min="400.0" onMouseDragged="#sliderMoved" showTickLabels="true" showTickMarks="true" snapToTicks="true" visible="false" />
+   <Slider fx:id="slide" majorTickUnit="20" max="1100.0" min="400.0" onMouseDragged="#sliderMoved" showTickLabels="true" showTickMarks="true" snapToTicks="true" visible="false" />
    <HBox fx:id="displayData" alignment="CENTER" prefHeight="43.0" prefWidth="661.0" visible="false">
       <children>
           <Label text="Longeur d'onde (en nm) : " />
