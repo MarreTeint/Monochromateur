@@ -31,7 +31,7 @@ public class Controller {
     @FXML
     private ProgressIndicator progress;
     private String port;
-    private final int[] Y = new int[401];
+    private final int[] Y = new int[701];
 
 
 
@@ -79,10 +79,10 @@ public class Controller {
                 series.setName("Absorbance en fonction de la longueur d'onde");
 
                 //read data from arduino
-                //int Y[] = new int[401];
+                //int Y[] = new int[701];
                 int maxat = 0;
 
-                for (int i = 0; i < 401; i++) {
+                for (int i = 0; i < 701; i++) {
                     StringBuilder data = new StringBuilder();
                     byte[] readBuffer = new byte[1];
                     comPort.readBytes(readBuffer, readBuffer.length);
@@ -101,12 +101,12 @@ public class Controller {
                         System.out.println(i + " Data received: " + Y[i]);
                         int finalI = i;
                         javafx.application.Platform.runLater(() -> {
-                            progress.setProgress((double) finalI / 401);
+                            progress.setProgress((double) finalI / 701);
                         });
                     }
                 }
 
-                for (int i = 400; i <= 800; i += 1) {
+                for (int i = 400; i <= 1100; i += 1) {
                     series.getData().add(new XYChart.Data(i, Y[i - 400]));
                 }
 
