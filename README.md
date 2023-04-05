@@ -3,15 +3,19 @@
 ![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)
 ![Arduino](https://img.shields.io/badge/Arduino-00979D?style=for-the-badge&logo=arduino&logoColor=white)
 # Monochromateur
+## Requirements
+- Java 17
+- Arduino UNO (or compatible)
+- 
 ## Branches
 
 - The `main` branch correspond to the code of the UI of the monochromator
 - The `microcontroller` branch refer to the code of the microcontroller.
 
 ## Components
+### UI
+The UI is a Java 17 application using JavaFX 17.
 ### Microcontroller
 The microcontroller is an arduino uno
 
-### Motor
-### Photodiode
 
