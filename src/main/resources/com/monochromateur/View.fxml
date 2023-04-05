@@ -10,14 +10,14 @@
     <padding>
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
     </padding>
-   <LineChart fx:id="result" prefHeight="529.0" prefWidth="719.0">
+   <ScatterChart fx:id="result" prefHeight="529.0" prefWidth="719.0">
      <xAxis>
        <NumberAxis autoRanging="false" label="Longeur d'onde (en nm)" lowerBound="400" side="BOTTOM" tickLength="10.0" tickUnit="20.0" upperBound="1100" />
      </xAxis>
      <yAxis>
        <NumberAxis autoRanging="false" label="Absorbance (en %)" side="LEFT" />
      </yAxis>
-   </LineChart>
+   </ScatterChart>
    <HBox alignment="CENTER" prefHeight="64.0" prefWidth="661.0">
       <children>
          <ComboBox fx:id="COMPort" prefHeight="24.0" prefWidth="117.0" promptText="COM Port" />

@@ -27,7 +27,7 @@ public class Controller {
     public HBox displayData;
     public Rectangle color;
     @FXML
-    private LineChart result;
+    private ScatterChart result;
     @FXML
     private ProgressIndicator progress;
     private String port;
@@ -116,7 +116,7 @@ public class Controller {
                     result.setAnimated(true);
                     result.getData().clear();
                     result.getData().add(series);
-                    result.setCreateSymbols(false);
+                    //result.setCreateSymbols(false);
                     progress.setVisible(false);
                     result.setTitle("Résultat");
                     button.setText("Refaire une mesure");
