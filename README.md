@@ -6,7 +6,7 @@
 ## Requirements
 - Java 17
 - Arduino UNO (or compatible)
-- 
+
 ## Branches
 
 - The `main` branch correspond to the code of the UI of the monochromator
