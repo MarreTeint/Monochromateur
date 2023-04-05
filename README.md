@@ -1,5 +1,8 @@
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=java&logoColor=white)
+![JavaFX](https://img.shields.io/badge/JavaFX-ED8B00?style=for-the-badge&logo=java&logoColor=white)
+![Maven](https://img.shields.io/badge/Maven-C71A36?style=for-the-badge&logo=apache-maven&logoColor=white)
+![Arduino](https://img.shields.io/badge/Arduino-00979D?style=for-the-badge&logo=arduino&logoColor=white)
 # Monochromateur
-
 ## Branches
 
 - The `main` branch correspond to the code of the UI of the monochromator
@@ -7,13 +10,8 @@
 
 ## Components
 ### Microcontroller
-The microcontroller is an mbed LPC1768. The code for the microcontroller is written in C++.
+The microcontroller is an arduino uno
 
-![the mbed card](https://os.mbed.com/media/cache/platforms/LPC1768.jpg.250x250_q85.jpg)
-
-*The mbed card*
-
-*In order to test the UI, I use an arduino uno so there might be sometimes references to arduino*
 ### Motor
 ### Photodiode
 
