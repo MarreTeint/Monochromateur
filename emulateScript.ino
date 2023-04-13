@@ -19,10 +19,8 @@ void setup() {
   pinMode(6, OUTPUT);
   resetPins();
   turnMotor(ON);
-  //for(int i = 0 ; i<mesures ; i++){
-  //  tare[i] = 100;//analogRead(analog);
-  //}
   taring(0);
+  turnMotor(OFF);
 }
 
 void resetPins(){
@@ -81,7 +79,7 @@ void turnMotor(int on){
 
 void taring(int step){
   for(int i = 0 ; i<mesures ; i++){
-    tare[i] = 100;//analogRead(analog);
+    tare[i] = analogRead(analog);
     doAStep(step);
     step++;
   }
@@ -97,6 +95,7 @@ void loop() {
   if(Serial.read()=='A'){
     while( Serial.available() > 0 ) Serial.read();
     //Mesure
+    turnMotor(ON);
     for(int i = 0 ; i<mesures ; i++){
       int out = analogRead(analog);
       Serial.print(out/tare[i]);
@@ -110,5 +109,6 @@ void loop() {
       doAStep(step);
     }
     doAStep(4);
+    turnMotor(OFF);
   }
 }
