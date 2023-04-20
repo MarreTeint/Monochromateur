@@ -12,7 +12,7 @@ public class Launcher extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Launcher.class.getResource("View.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1600, 900);
-        stage.setTitle("Monochromateur APP4 - 2022/2023");
+        stage.setTitle("COLOR SOLUTIONEM/APP4 - 2022/2023");
         stage.setScene(scene);
         stage.show();
     }

@@ -15,7 +15,7 @@
        <NumberAxis autoRanging="false" label="Longeur d'onde (en nm)" lowerBound="400" side="BOTTOM" tickLength="10.0" tickUnit="20.0" upperBound="1100" />
      </xAxis>
      <yAxis>
-       <NumberAxis autoRanging="false" label="Absorbance (en %)" side="LEFT" />
+       <NumberAxis autoRanging="false" label="Intensité (en %)" side="LEFT" />
      </yAxis>
    </LineChart>
    <HBox alignment="CENTER" prefHeight="64.0" prefWidth="661.0">
@@ -26,13 +26,13 @@
          <ProgressIndicator fx:id="progress" prefHeight="25.0" prefWidth="64.0" progress="0.0" visible="false" />
       </children>
    </HBox>
-   <Slider fx:id="slide" majorTickUnit="20" max="1100.0" min="400.0" onMouseDragged="#sliderMoved" showTickLabels="true" showTickMarks="true" snapToTicks="true" visible="false" />
+   <Slider fx:id="slide" majorTickUnit="20" max="490.0" min="0.0" onMouseDragged="#sliderMoved" showTickLabels="false" showTickMarks="true" snapToTicks="true" visible="false" />
    <HBox fx:id="displayData" alignment="CENTER" prefHeight="43.0" prefWidth="661.0" visible="false">
       <children>
           <Label text="Longeur d'onde (en nm) : " />
          <Label fx:id="slideX" text="" />
          <Separator orientation="VERTICAL" prefHeight="17.0" prefWidth="23.0" />
-          <Label text=" Absorbance (en %) : " />
+          <Label text=" Intensité (en %) : " />
             <Label fx:id="slideY" prefHeight="17.0" prefWidth="36.0" text="" />
          <Separator orientation="VERTICAL" prefHeight="17.0" prefWidth="23.0" />
          <Rectangle fx:id="color" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="17.0" stroke="BLACK" strokeType="INSIDE" width="23.0" />

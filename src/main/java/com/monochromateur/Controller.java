@@ -54,7 +54,8 @@ public class Controller {
 
                 //Starting message to arduino
                 byte[] WriteByte = new byte[1];
-                WriteByte[0] = 65; //send A
+                WriteByte[0] = 65;// A
+
                 if (comPort.writeBytes(WriteByte, 1) == 1) {
                     System.out.println("Start command sent on " + port);
                 } else {
@@ -76,13 +77,13 @@ public class Controller {
 
 
                 XYChart.Series series = new XYChart.Series();
-                series.setName("Absorbance en fonction de la longueur d'onde");
+                series.setName("Intensité en fonction de la longueur d'onde");
 
                 //read data from arduino
                 //int Y[] = new int[701];
                 int maxat = 0;
 
-                for (int i = 0; i < 701; i++) {
+                for (int i = 0; i < 490; i++) {
                     StringBuilder data = new StringBuilder();
                     byte[] readBuffer = new byte[1];
                     comPort.readBytes(readBuffer, readBuffer.length);
@@ -101,13 +102,13 @@ public class Controller {
                         System.out.println(i + " Data received: " + Y[i]);
                         int finalI = i;
                         javafx.application.Platform.runLater(() -> {
-                            progress.setProgress((double) finalI / 701);
+                            progress.setProgress((double) finalI / 490);
                         });
                     }
                 }
 
-                for (int i = 400; i <= 1100; i += 1) {
-                    series.getData().add(new XYChart.Data(i, Y[i - 400]));
+                for (int i = 0; i <= 490; i += 1) {
+                    series.getData().add(new XYChart.Data((i*1.43)+400, Y[i]));
                 }
 
                 //send series to main thread
@@ -144,8 +145,8 @@ public class Controller {
     protected void sliderMoved() {
         new Thread(() -> {
             XYChart.Series series = new XYChart.Series();
-            series.getData().add(new XYChart.Data((int)slide.getValue(), 0));
-            series.getData().add(new XYChart.Data((int)slide.getValue(), 100));
+            series.getData().add(new XYChart.Data((int)slide.getValue()*1.43+400, 0));
+            series.getData().add(new XYChart.Data((int)slide.getValue()*1.43+400, 100));
             series.setName("Curseur");
             javafx.application.Platform.runLater(() -> {
                 result.setAnimated(false);
@@ -153,8 +154,8 @@ public class Controller {
                    result.getData().remove(1);
                 }
                 result.getData().add(series);
-                slideX.setText(String.valueOf((int)slide.getValue()));
-                slideY.setText(String.valueOf(Y[(int)slide.getValue()-400]));
+                slideX.setText(String.valueOf((int)((int)slide.getValue()*1.43+400)));
+                slideY.setText(String.valueOf(Y[(int)slide.getValue()]));
                 int[] rgb = new int[3];
                 rgb = wavelengthToRGB((int)slide.getValue());
                 color.setFill(javafx.scene.paint.Color.rgb(rgb[0],rgb[1],rgb[2]));
@@ -164,7 +165,7 @@ public class Controller {
 
     protected int[] wavelengthToRGB(int wave){
         double r,g,b,s=1;
-
+        wave=(int)(wave*1.43+400);
         if(wave<=380){
             r=80;
             g=0;
