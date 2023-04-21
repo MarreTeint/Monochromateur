@@ -1,11 +1,11 @@
 #define ON 1
 #define OFF 0
-#define dt 1 //sleep time in ms
-#define mesures 701
+#define dt 10 //sleep time in ms
+#define mesures 490
 
 int step = 0;
 int analog = A2;
-int tare[701];
+int tare[490];
 
 void setup() {
   Serial.begin(2000000);
@@ -19,8 +19,8 @@ void setup() {
   pinMode(6, OUTPUT);
   resetPins();
   turnMotor(ON);
-  taring(0);
-  turnMotor(OFF);
+  //taring(0);
+  //turnMotor(OFF);
 }
 
 void resetPins(){
@@ -31,7 +31,7 @@ void resetPins(){
 
 void doAStep(int stepNum){
   switch(stepNum%4){
-    case 0:
+    case 3:
     digitalWrite(2, HIGH);
     //Serial.println("2 on HIGH");
     delay(dt);
@@ -40,7 +40,7 @@ void doAStep(int stepNum){
     delay(dt);
     break;
 
-    case 1:
+    case 2:
     digitalWrite(4, HIGH);
     //Serial.println("4 on HIGH");
     delay(dt);
@@ -49,7 +49,7 @@ void doAStep(int stepNum){
     delay(dt);
     break;
 
-    case 2:
+    case 1:
     digitalWrite(3, HIGH);
     //Serial.println("3 on HIGH");
     delay(dt);
@@ -58,7 +58,7 @@ void doAStep(int stepNum){
     delay(dt);
     break;
 
-    case 3:
+    case 0:
     digitalWrite(5, HIGH);
     //Serial.println("5 on HIGH");
     delay(dt);
@@ -81,7 +81,7 @@ void taring(int step){
   for(int i = 0 ; i<mesures ; i++){
     tare[i] = analogRead(analog);
     doAStep(step);
-    step++;
+    step--;
   }
   //set back the motor
   for(int i = mesures ; i>=0 ; i--){
@@ -95,10 +95,11 @@ void loop() {
   if(Serial.read()=='A'){
     while( Serial.available() > 0 ) Serial.read();
     //Mesure
-    turnMotor(ON);
+    //turnMotor(ON);
     for(int i = 0 ; i<mesures ; i++){
       int out = analogRead(analog);
-      Serial.print(out/tare[i]);
+      //Serial.print((100*out)/tare[i]);
+      Serial.print((100*out)/1023);
       Serial.print('\n');
       doAStep(step);
       step++;
@@ -109,6 +110,6 @@ void loop() {
       doAStep(step);
     }
     doAStep(4);
-    turnMotor(OFF);
+    //turnMotor(OFF);
   }
 }
